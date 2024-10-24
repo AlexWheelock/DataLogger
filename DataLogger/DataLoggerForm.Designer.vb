@@ -25,10 +25,10 @@ Partial Class DataLoggerForm
         Me.components = New System.ComponentModel.Container()
         Me.SerialPort = New System.IO.Ports.SerialPort(Me.components)
         Me.SampleTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.PlotPictureBox = New System.Windows.Forms.PictureBox()
         Me.DisplayOptionGroupBox = New System.Windows.Forms.GroupBox()
-        Me.RecentRadioButton = New System.Windows.Forms.RadioButton()
         Me.AllRadioButton = New System.Windows.Forms.RadioButton()
+        Me.RecentRadioButton = New System.Windows.Forms.RadioButton()
         Me.ExitButton = New System.Windows.Forms.Button()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -39,32 +39,53 @@ Partial Class DataLoggerForm
         Me.DisplayAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.StatusStrip = New System.Windows.Forms.StatusStrip()
+        Me.COMStatusStripLabel = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.StartButton = New System.Windows.Forms.Button()
+        Me.StopButton = New System.Windows.Forms.Button()
+        Me.SampleRateTextBox = New System.Windows.Forms.TextBox()
+        Me.SampleRateLabel = New System.Windows.Forms.Label()
+        Me.RangeLabel = New System.Windows.Forms.Label()
+        CType(Me.PlotPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.DisplayOptionGroupBox.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
+        Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
+        '
+        'SerialPort
+        '
         '
         'SampleTimer
         '
         '
-        'PictureBox1
+        'PlotPictureBox
         '
-        Me.PictureBox1.Location = New System.Drawing.Point(0, 28)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(801, 438)
-        Me.PictureBox1.TabIndex = 0
-        Me.PictureBox1.TabStop = False
+        Me.PlotPictureBox.Location = New System.Drawing.Point(0, 31)
+        Me.PlotPictureBox.Name = "PlotPictureBox"
+        Me.PlotPictureBox.Size = New System.Drawing.Size(800, 435)
+        Me.PlotPictureBox.TabIndex = 0
+        Me.PlotPictureBox.TabStop = False
         '
         'DisplayOptionGroupBox
         '
         Me.DisplayOptionGroupBox.Controls.Add(Me.AllRadioButton)
         Me.DisplayOptionGroupBox.Controls.Add(Me.RecentRadioButton)
-        Me.DisplayOptionGroupBox.Location = New System.Drawing.Point(319, 472)
+        Me.DisplayOptionGroupBox.Location = New System.Drawing.Point(478, 472)
         Me.DisplayOptionGroupBox.Name = "DisplayOptionGroupBox"
         Me.DisplayOptionGroupBox.Size = New System.Drawing.Size(149, 47)
         Me.DisplayOptionGroupBox.TabIndex = 1
         Me.DisplayOptionGroupBox.TabStop = False
         Me.DisplayOptionGroupBox.Text = "Display"
+        '
+        'AllRadioButton
+        '
+        Me.AllRadioButton.AutoSize = True
+        Me.AllRadioButton.Location = New System.Drawing.Point(105, 18)
+        Me.AllRadioButton.Name = "AllRadioButton"
+        Me.AllRadioButton.Size = New System.Drawing.Size(43, 20)
+        Me.AllRadioButton.TabIndex = 1
+        Me.AllRadioButton.Text = "All"
+        Me.AllRadioButton.UseVisualStyleBackColor = True
         '
         'RecentRadioButton
         '
@@ -77,16 +98,6 @@ Partial Class DataLoggerForm
         Me.RecentRadioButton.TabStop = True
         Me.RecentRadioButton.Text = "Recent"
         Me.RecentRadioButton.UseVisualStyleBackColor = True
-        '
-        'AllRadioButton
-        '
-        Me.AllRadioButton.AutoSize = True
-        Me.AllRadioButton.Location = New System.Drawing.Point(105, 18)
-        Me.AllRadioButton.Name = "AllRadioButton"
-        Me.AllRadioButton.Size = New System.Drawing.Size(43, 20)
-        Me.AllRadioButton.TabIndex = 1
-        Me.AllRadioButton.Text = "All"
-        Me.AllRadioButton.UseVisualStyleBackColor = True
         '
         'ExitButton
         '
@@ -117,13 +128,13 @@ Partial Class DataLoggerForm
         'SelectCOMToolStripMenuItem
         '
         Me.SelectCOMToolStripMenuItem.Name = "SelectCOMToolStripMenuItem"
-        Me.SelectCOMToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.SelectCOMToolStripMenuItem.Size = New System.Drawing.Size(169, 26)
         Me.SelectCOMToolStripMenuItem.Text = "&Select COM"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(169, 26)
         Me.ExitToolStripMenuItem.Text = "E&xit"
         '
         'ViewToolStripMenuItem
@@ -136,13 +147,13 @@ Partial Class DataLoggerForm
         'DisplayRecentToolStripMenuItem
         '
         Me.DisplayRecentToolStripMenuItem.Name = "DisplayRecentToolStripMenuItem"
-        Me.DisplayRecentToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.DisplayRecentToolStripMenuItem.Size = New System.Drawing.Size(190, 26)
         Me.DisplayRecentToolStripMenuItem.Text = "Display &Recent"
         '
         'DisplayAllToolStripMenuItem
         '
         Me.DisplayAllToolStripMenuItem.Name = "DisplayAllToolStripMenuItem"
-        Me.DisplayAllToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.DisplayAllToolStripMenuItem.Size = New System.Drawing.Size(190, 26)
         Me.DisplayAllToolStripMenuItem.Text = "Display &All"
         '
         'AboutToolStripMenuItem
@@ -155,32 +166,100 @@ Partial Class DataLoggerForm
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(118, 26)
         Me.InfoToolStripMenuItem.Text = "&Info"
+        '
+        'StatusStrip
+        '
+        Me.StatusStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.COMStatusStripLabel})
+        Me.StatusStrip.Location = New System.Drawing.Point(0, 525)
+        Me.StatusStrip.Name = "StatusStrip"
+        Me.StatusStrip.Size = New System.Drawing.Size(800, 26)
+        Me.StatusStrip.TabIndex = 5
+        Me.StatusStrip.Text = "StatusStrip1"
+        '
+        'COMStatusStripLabel
+        '
+        Me.COMStatusStripLabel.Name = "COMStatusStripLabel"
+        Me.COMStatusStripLabel.Size = New System.Drawing.Size(149, 20)
+        Me.COMStatusStripLabel.Text = "COMStatusStripLabel"
+        '
+        'StartButton
+        '
+        Me.StartButton.Location = New System.Drawing.Point(12, 472)
+        Me.StartButton.Name = "StartButton"
+        Me.StartButton.Size = New System.Drawing.Size(104, 47)
+        Me.StartButton.TabIndex = 6
+        Me.StartButton.Text = "&Start"
+        Me.StartButton.UseVisualStyleBackColor = True
+        '
+        'StopButton
+        '
+        Me.StopButton.Location = New System.Drawing.Point(122, 472)
+        Me.StopButton.Name = "StopButton"
+        Me.StopButton.Size = New System.Drawing.Size(104, 47)
+        Me.StopButton.TabIndex = 7
+        Me.StopButton.Text = "S&top"
+        Me.StopButton.UseVisualStyleBackColor = True
+        '
+        'SampleRateTextBox
+        '
+        Me.SampleRateTextBox.Location = New System.Drawing.Point(270, 494)
+        Me.SampleRateTextBox.Name = "SampleRateTextBox"
+        Me.SampleRateTextBox.Size = New System.Drawing.Size(103, 22)
+        Me.SampleRateTextBox.TabIndex = 8
+        Me.SampleRateTextBox.Text = "10"
+        '
+        'SampleRateLabel
+        '
+        Me.SampleRateLabel.AutoSize = True
+        Me.SampleRateLabel.Location = New System.Drawing.Point(267, 472)
+        Me.SampleRateLabel.Name = "SampleRateLabel"
+        Me.SampleRateLabel.Size = New System.Drawing.Size(165, 16)
+        Me.SampleRateLabel.TabIndex = 9
+        Me.SampleRateLabel.Text = "Sample Rate (per second)"
+        '
+        'RangeLabel
+        '
+        Me.RangeLabel.AutoSize = True
+        Me.RangeLabel.Location = New System.Drawing.Point(379, 497)
+        Me.RangeLabel.Name = "RangeLabel"
+        Me.RangeLabel.Size = New System.Drawing.Size(53, 16)
+        Me.RangeLabel.TabIndex = 10
+        Me.RangeLabel.Text = "10-1000"
         '
         'DataLoggerForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 527)
+        Me.ClientSize = New System.Drawing.Size(800, 551)
+        Me.Controls.Add(Me.RangeLabel)
+        Me.Controls.Add(Me.SampleRateLabel)
+        Me.Controls.Add(Me.SampleRateTextBox)
+        Me.Controls.Add(Me.StopButton)
+        Me.Controls.Add(Me.StartButton)
+        Me.Controls.Add(Me.StatusStrip)
         Me.Controls.Add(Me.ExitButton)
         Me.Controls.Add(Me.DisplayOptionGroupBox)
-        Me.Controls.Add(Me.PictureBox1)
+        Me.Controls.Add(Me.PlotPictureBox)
         Me.Controls.Add(Me.MenuStrip1)
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "DataLoggerForm"
         Me.Text = "Data Logger"
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PlotPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.DisplayOptionGroupBox.ResumeLayout(False)
         Me.DisplayOptionGroupBox.PerformLayout()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
+        Me.StatusStrip.ResumeLayout(False)
+        Me.StatusStrip.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
     Friend WithEvents SampleTimer As Timer
-    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents PlotPictureBox As PictureBox
     Friend WithEvents DisplayOptionGroupBox As GroupBox
     Friend WithEvents RecentRadioButton As RadioButton
     Friend WithEvents AllRadioButton As RadioButton
@@ -195,4 +274,11 @@ Partial Class DataLoggerForm
     Friend WithEvents AboutToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents InfoToolStripMenuItem As ToolStripMenuItem
     Public WithEvents SerialPort As IO.Ports.SerialPort
+    Friend WithEvents StatusStrip As StatusStrip
+    Friend WithEvents COMStatusStripLabel As ToolStripStatusLabel
+    Friend WithEvents StartButton As Button
+    Friend WithEvents StopButton As Button
+    Friend WithEvents SampleRateTextBox As TextBox
+    Friend WithEvents SampleRateLabel As Label
+    Friend WithEvents RangeLabel As Label
 End Class
