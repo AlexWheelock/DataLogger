@@ -128,13 +128,13 @@ Partial Class DataLoggerForm
         'SelectCOMToolStripMenuItem
         '
         Me.SelectCOMToolStripMenuItem.Name = "SelectCOMToolStripMenuItem"
-        Me.SelectCOMToolStripMenuItem.Size = New System.Drawing.Size(169, 26)
+        Me.SelectCOMToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
         Me.SelectCOMToolStripMenuItem.Text = "&Select COM"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(169, 26)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
         Me.ExitToolStripMenuItem.Text = "E&xit"
         '
         'ViewToolStripMenuItem
@@ -223,11 +223,11 @@ Partial Class DataLoggerForm
         'RangeLabel
         '
         Me.RangeLabel.AutoSize = True
-        Me.RangeLabel.Location = New System.Drawing.Point(379, 497)
+        Me.RangeLabel.Location = New System.Drawing.Point(386, 497)
         Me.RangeLabel.Name = "RangeLabel"
-        Me.RangeLabel.Size = New System.Drawing.Size(53, 16)
+        Me.RangeLabel.Size = New System.Drawing.Size(46, 16)
         Me.RangeLabel.TabIndex = 10
-        Me.RangeLabel.Text = "10-1000"
+        Me.RangeLabel.Text = "1-1000"
         '
         'DataLoggerForm
         '
@@ -246,6 +246,7 @@ Partial Class DataLoggerForm
         Me.Controls.Add(Me.MenuStrip1)
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "DataLoggerForm"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Data Logger"
         CType(Me.PlotPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.DisplayOptionGroupBox.ResumeLayout(False)

@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class PortSelect
+Partial Class PortSelectForm
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -53,7 +53,7 @@ Partial Class PortSelect
         Me.ConnectButton.Text = "Connect"
         Me.ConnectButton.UseVisualStyleBackColor = True
         '
-        'PortSelect
+        'PortSelectForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -61,7 +61,8 @@ Partial Class PortSelect
         Me.Controls.Add(Me.ConnectButton)
         Me.Controls.Add(Me.RefreshButton)
         Me.Controls.Add(Me.SerialComPortsComboBox)
-        Me.Name = "PortSelect"
+        Me.Name = "PortSelectForm"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "COM Port Select"
         Me.ResumeLayout(False)
 

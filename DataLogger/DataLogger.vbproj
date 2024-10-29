@@ -95,10 +95,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="PortSelect.Designer.vb">
-      <DependentUpon>PortSelect.vb</DependentUpon>
+    <Compile Include="PortSelectForm.Designer.vb">
+      <DependentUpon>PortSelectForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="PortSelect.vb">
+    <Compile Include="PortSelectForm.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -112,8 +112,8 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PortSelect.resx">
-      <DependentUpon>PortSelect.vb</DependentUpon>
+    <EmbeddedResource Include="PortSelectForm.resx">
+      <DependentUpon>PortSelectForm.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

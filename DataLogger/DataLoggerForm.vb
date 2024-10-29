@@ -9,17 +9,24 @@ Option Strict On
 
 Public Class DataLoggerForm
 
-    Sub Plot(plotData() As Integer)
+    Sub Plot(plotData() As Integer, Optional _erase As Boolean = False)
         Dim g As Graphics = PlotPictureBox.CreateGraphics
         Dim pen As New Pen(Color.Red)
         Dim oldX%, oldY%
-        PlotPictureBox.Refresh()
+
+        If _erase Then
+            pen.Color = Color.White
+        End If
+
+        PlotPictureBox.BackColor = Color.White
+        'PlotPictureBox.Refresh()
         g.ScaleTransform(CSng(PlotPictureBox.Width / 100), 1)
         For x = 0 To UBound(plotData)
             g.DrawLine(pen, oldX, oldY, x, plotData(x))
             oldX = x
             oldY = plotData(x)
         Next
+        'SampleTimer.Enabled = True
     End Sub
 
     Function Qy_ReadAnalogInputA1() As Byte()
@@ -38,14 +45,14 @@ Public Class DataLoggerForm
     Function ShiftArray(newData As Integer) As Integer()
         Static data(99) As Integer
 
-        For i = LBound(data) To UBound(data)
+        Plot(data, True)
 
+        For i = LBound(data) To UBound(data)
             Try
                 data(i) = data(i + 1)
             Catch ex As Exception
 
             End Try
-
         Next
 
         data(UBound(data)) = newData
@@ -67,8 +74,8 @@ Public Class DataLoggerForm
         End Try
 
         If validInput Then
-            If numberTest < 10 Then
-                numberTest = 10
+            If numberTest < 1 Then
+                numberTest = 1
                 SampleRateTextBox.Text = "10"
             ElseIf numberTest > 1000 Then
                 numberTest = 1000
@@ -83,28 +90,54 @@ Public Class DataLoggerForm
         Return interval
     End Function
 
+    Sub ReceiveData()
+        Dim data(SerialPort.BytesToRead) As Byte
+        Dim temp() As Integer
+
+
+        Console.WriteLine(SerialPort.BytesToRead)
+        SerialPort.Read(data, 0, SerialPort.BytesToRead)
+
+        For bytes = 0 To UBound(data)
+            Console.WriteLine(Hex(data(bytes)))
+        Next
+
+        temp = ShiftArray(data(0))
+
+        Plot(temp)
+    End Sub
+
+    Function ReadyToReceiveData(update As Integer) As Boolean
+        Static currentState As Boolean
+
+        If update <> -1 Then
+            If update = 0 Then
+                currentState = False
+            ElseIf update = 1 Then
+                currentState = True
+            End If
+        End If
+
+        Return currentState
+    End Function
+
 
     '================ Event Handlers Below Here ================
 
 
     Private Sub SerialPort_DataReceived(sender As Object, e As IO.Ports.SerialDataReceivedEventArgs) Handles SerialPort.DataReceived
-        Dim data(SerialPort.BytesToRead) As Byte
-
-        Console.WriteLine(SerialPort.BytesToRead)
-        SerialPort.Read(data, 0, SerialPort.BytesToRead)
-
-        For Each Bytes In data
-            Console.WriteLine(Hex(data(Bytes)))
-        Next
-
+        If ReadyToReceiveData(-1) Then
+            ReceiveData()
+        End If
     End Sub
 
     Private Sub DataLoggerForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+        ReadyToReceiveData(0)
     End Sub
 
     Private Sub SampleTimer_Tick(sender As Object, e As EventArgs) Handles SampleTimer.Tick
-
+        'SampleTimer.Enabled = False
+        Qy_ReadAnalogInputA1()
     End Sub
 
     Private Sub RecentRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles RecentRadioButton.CheckedChanged
@@ -116,7 +149,7 @@ Public Class DataLoggerForm
     End Sub
 
     Private Sub SelectCOMToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SelectCOMToolStripMenuItem.Click
-
+        PortSelectForm.Show()
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
@@ -152,11 +185,11 @@ Public Class DataLoggerForm
     End Sub
 
     Private Sub StartButton_Click(sender As Object, e As EventArgs) Handles StartButton.Click
-
+        SampleTimer.Enabled = True
     End Sub
 
     Private Sub StopButton_Click(sender As Object, e As EventArgs) Handles StopButton.Click
-
+        SampleTimer.Enabled = False
     End Sub
 
     Private Sub SampleRateTextBox_TextChanged(sender As Object, e As EventArgs) Handles SampleRateTextBox.TextChanged

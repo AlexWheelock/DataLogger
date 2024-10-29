@@ -1,6 +1,6 @@
 ﻿Imports System.IO.Ports
 Imports System.Threading.Thread
-Public Class PortSelect
+Public Class PortSelectForm
 
     'Sub GetComPorts()
     '    SerialComPortsComboBox.Text = ""
@@ -37,6 +37,7 @@ Public Class PortSelect
             End If
         Next
         'PortComboBox.SelectedIndex = 0
+
         DataLoggerForm.SerialPort.Close()
     End Sub
 
@@ -71,6 +72,8 @@ Public Class PortSelect
     Private Sub ConnectButton_Click(sender As Object, e As EventArgs) Handles ConnectButton.Click
         Try
             SerialConnect(SerialComPortsComboBox.Text)
+            DataLoggerForm.ReadyToReceiveData(1)
+            Me.Close()
         Catch ex As Exception
             If SerialComPortsComboBox.Text = "" Then
                 MsgBox("Please select a COM port and try again.")
