@@ -6,7 +6,7 @@
 
 Option Explicit On
 Option Strict On
-
+'Imports System.Threading.Thread
 Public Class DataLoggerForm
 
     Sub Plot(plotData() As Integer, Optional _erase As Boolean = False)
@@ -18,9 +18,12 @@ Public Class DataLoggerForm
             pen.Color = Color.White
         End If
 
-        PlotPictureBox.BackColor = Color.White
+        'PlotPictureBox.BackColor = Color.White
         'PlotPictureBox.Refresh()
-        g.ScaleTransform(CSng(PlotPictureBox.Width / 100), 1)
+        If Me.PlotPictureBox.InvokeRequired Then
+            Me.PlotPictureBox.Invoke(New MethodInvoker(Sub() PlotPictureBox.Refresh()))
+        End If
+        g.ScaleTransform(CSng(PlotPictureBox.Width / (30 * CInt(SampleRateTextBox.Text))), 1)
         For x = 0 To UBound(plotData)
             g.DrawLine(pen, oldX, oldY, x, plotData(x))
             oldX = x
@@ -43,9 +46,9 @@ Public Class DataLoggerForm
     End Function
 
     Function ShiftArray(newData As Integer) As Integer()
-        Static data(99) As Integer
+        Static data(30 * CInt(SampleRateTextBox.Text)) As Integer
 
-        Plot(data, True)
+        'Plot(data, True)
 
         For i = LBound(data) To UBound(data)
             Try
@@ -93,7 +96,7 @@ Public Class DataLoggerForm
     Sub ReceiveData()
         Dim data(SerialPort.BytesToRead) As Byte
         Dim temp() As Integer
-
+        Dim combinedByteData As Integer
 
         Console.WriteLine(SerialPort.BytesToRead)
         SerialPort.Read(data, 0, SerialPort.BytesToRead)
@@ -102,7 +105,8 @@ Public Class DataLoggerForm
             Console.WriteLine(Hex(data(bytes)))
         Next
 
-        temp = ShiftArray(data(0))
+        combinedByteData = ((data(0) * 4) + (data(1) \ 64))
+        temp = ShiftArray(combinedByteData)
 
         Plot(temp)
     End Sub
@@ -121,6 +125,20 @@ Public Class DataLoggerForm
         Return currentState
     End Function
 
+    Sub WriteDataToFile()
+        'FileOpen(1, )
+    End Sub
+
+
+    Function DisplayMode(modeSelect As Integer) As Integer
+        Static currentMode As Integer
+
+        If modeSelect <> -1 Then
+            currentMode = modeSelect
+        End If
+
+        Return currentMode
+    End Function
 
     '================ Event Handlers Below Here ================
 
@@ -133,6 +151,7 @@ Public Class DataLoggerForm
 
     Private Sub DataLoggerForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ReadyToReceiveData(0)
+        DisplayMode(0)
     End Sub
 
     Private Sub SampleTimer_Tick(sender As Object, e As EventArgs) Handles SampleTimer.Tick
@@ -141,11 +160,11 @@ Public Class DataLoggerForm
     End Sub
 
     Private Sub RecentRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles RecentRadioButton.CheckedChanged
-
+        DisplayMode(0)
     End Sub
 
     Private Sub AllRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles AllRadioButton.CheckedChanged
-
+        DisplayMode(1)
     End Sub
 
     Private Sub SelectCOMToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SelectCOMToolStripMenuItem.Click
