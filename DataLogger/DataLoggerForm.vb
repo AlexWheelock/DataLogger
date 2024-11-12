@@ -9,17 +9,15 @@ Option Strict On
 'Imports System.Threading.Thread
 Public Class DataLoggerForm
 
-    Sub Plot(plotData() As Integer, Optional _erase As Boolean = False)
+    Dim dataList As New List(Of Integer)
+
+
+    Sub Plot(plotData() As Integer)
         Dim g As Graphics = PlotPictureBox.CreateGraphics
         Dim pen As New Pen(Color.Red)
         Dim oldX%, oldY%
 
-        If _erase Then
-            pen.Color = Color.White
-        End If
 
-        'PlotPictureBox.BackColor = Color.White
-        'PlotPictureBox.Refresh()
         If Me.PlotPictureBox.InvokeRequired Then
             Me.PlotPictureBox.Invoke(New MethodInvoker(Sub() PlotPictureBox.Refresh()))
         End If
@@ -29,8 +27,8 @@ Public Class DataLoggerForm
             oldX = x
             oldY = plotData(x)
         Next
-        'SampleTimer.Enabled = True
     End Sub
+
 
     Function Qy_ReadAnalogInputA1() As Byte()
         Dim data(0) As Byte
@@ -45,10 +43,9 @@ Public Class DataLoggerForm
         Return data
     End Function
 
+
     Function ShiftArray(newData As Integer) As Integer()
         Static data(30 * CInt(SampleRateTextBox.Text)) As Integer
-
-        'Plot(data, True)
 
         For i = LBound(data) To UBound(data)
             Try
@@ -88,28 +85,42 @@ Public Class DataLoggerForm
         End If
     End Sub
 
+
     Function SampleRateToTime(samplesPerSecond As Integer) As Integer
         Dim interval As Integer = 1000 \ samplesPerSecond
         Return interval
     End Function
 
+
     Sub ReceiveData()
         Dim data(SerialPort.BytesToRead) As Byte
         Dim temp() As Integer
         Dim combinedByteData As Integer
+        Dim tempIndex As Integer
 
         Console.WriteLine(SerialPort.BytesToRead)
         SerialPort.Read(data, 0, SerialPort.BytesToRead)
 
         For bytes = 0 To UBound(data)
             Console.WriteLine(Hex(data(bytes)))
+            dataList.Add(data(bytes))
         Next
 
-        combinedByteData = ((data(0) * 4) + (data(1) \ 64))
-        temp = ShiftArray(combinedByteData)
+        WriteDataToFile("AN1", data)
+
+        If DisplayMode(-1) = 1 Then
+            For plotData As Integer = 0 To dataList.Count - 1 Step 2
+                tempIndex = plotData \ 2
+                temp(tempIndex) = (dataList.Item(plotData) * 4) + (dataList.Item(plotData + 1) \ 64)
+            Next
+        Else
+            combinedByteData = ((data(0) * 4) + (data(1) \ 64))
+            temp = ShiftArray(combinedByteData)
+        End If
 
         Plot(temp)
     End Sub
+
 
     Function ReadyToReceiveData(update As Integer) As Boolean
         Static currentState As Boolean
@@ -125,8 +136,18 @@ Public Class DataLoggerForm
         Return currentState
     End Function
 
-    Sub WriteDataToFile()
-        'FileOpen(1, )
+
+    Sub WriteDataToFile(prefix As String, data As Byte())
+        Dim time As String = DateTime.Now.ToString("yyMMddhh")
+
+        FileOpen(1, $"log_{time}.log", OpenMode.Append)
+
+        Write(1, $"$${prefix}")
+        Write(1, data(0))
+        Write(1, data(1))
+        WriteLine(1, $"{DateTime.Now.ToString("yyMMddhhmmss")}{DateTime.Now.Millisecond}")
+
+        FileClose(1)
     End Sub
 
 
@@ -139,6 +160,29 @@ Public Class DataLoggerForm
 
         Return currentMode
     End Function
+
+
+    Sub UpdateListFromFile()
+        Dim time As String = DateTime.Now.ToString("yyMMddhh")
+        Dim currentLine As String
+        Dim temp() As String
+
+        Try
+            FileOpen(1, $"log_{time}.log", OpenMode.Input)
+            Do Until EOF(1)
+                currentLine = LineInput(1)
+                temp = Split(currentLine, ",")
+                dataList.Add(CInt(temp(1)))
+                dataList.Add(CInt(temp(2)))
+            Loop
+
+            FileClose(1)
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
 
     '================ Event Handlers Below Here ================
 
@@ -155,7 +199,6 @@ Public Class DataLoggerForm
     End Sub
 
     Private Sub SampleTimer_Tick(sender As Object, e As EventArgs) Handles SampleTimer.Tick
-        'SampleTimer.Enabled = False
         Qy_ReadAnalogInputA1()
     End Sub
 
@@ -177,10 +220,13 @@ Public Class DataLoggerForm
 
     Private Sub DisplayRecentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayRecentToolStripMenuItem.Click
         RecentRadioButton.Checked = True
+        DisplayMode(0)
     End Sub
 
     Private Sub DisplayAllToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayAllToolStripMenuItem.Click
         AllRadioButton.Checked = True
+        DisplayMode(1)
+        UpdateListFromFile()
     End Sub
 
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
