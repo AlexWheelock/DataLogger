@@ -2,15 +2,6 @@
 Imports System.Threading.Thread
 Public Class PortSelectForm
 
-    'Sub GetComPorts()
-    '    SerialComPortsComboBox.Text = ""
-    '    SerialComPortsComboBox.Items.Clear()
-
-    '    For Each portName In DataLoggerForm.SerialPort.GetPortNames()
-    '        SerialComPortsComboBox.Items.Add(portName)
-    '    Next
-    'End Sub
-
     Sub GetComPorts()
         SerialComPortsComboBox.Items.Clear()
         SerialComPortsComboBox.Text = ""
@@ -58,7 +49,7 @@ Public Class PortSelectForm
 
     Sub UpdateStatus()
         'add all current serial port info to the status label
-        DataLoggerForm.COMStatusStripLabel.Text = $"Port: {DataLoggerForm.SerialPort.PortName} Baud: {DataLoggerForm.SerialPort.BaudRate} Status: {DataLoggerForm.SerialPort.IsOpen} Input Buffer: {DataLoggerForm.SerialPort.BytesToRead}"
+        DataLoggerForm.COMStatusStripLabel.Text = $"Port: {DataLoggerForm.SerialPort.PortName} | Baud: {DataLoggerForm.SerialPort.BaudRate} | Status: {DataLoggerForm.SerialPort.IsOpen} | Input Buffer: {DataLoggerForm.SerialPort.BytesToRead}"
     End Sub
 
     Private Sub PortSelect_Load(sender As Object, e As EventArgs) Handles MyBase.Load

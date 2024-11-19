@@ -30,7 +30,7 @@ Partial Class DataLoggerForm
         Me.AllRadioButton = New System.Windows.Forms.RadioButton()
         Me.RecentRadioButton = New System.Windows.Forms.RadioButton()
         Me.ExitButton = New System.Windows.Forms.Button()
-        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectCOMToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -46,10 +46,20 @@ Partial Class DataLoggerForm
         Me.SampleRateTextBox = New System.Windows.Forms.TextBox()
         Me.SampleRateLabel = New System.Windows.Forms.Label()
         Me.RangeLabel = New System.Windows.Forms.Label()
+        Me.MainContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.FileToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectCOMPortToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ViewToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AboutToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExitToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DisplayRecentToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DisplayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InfoToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.PlotPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.DisplayOptionGroupBox.SuspendLayout()
-        Me.MenuStrip1.SuspendLayout()
+        Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
+        Me.MainContextMenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
         'SerialPort
@@ -108,15 +118,15 @@ Partial Class DataLoggerForm
         Me.ExitButton.Text = "E&xit"
         Me.ExitButton.UseVisualStyleBackColor = True
         '
-        'MenuStrip1
+        'MenuStrip
         '
-        Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ViewToolStripMenuItem, Me.AboutToolStripMenuItem})
-        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(800, 28)
-        Me.MenuStrip1.TabIndex = 4
-        Me.MenuStrip1.Text = "TopMenuStrip"
+        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ViewToolStripMenuItem, Me.AboutToolStripMenuItem})
+        Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip.Name = "MenuStrip"
+        Me.MenuStrip.Size = New System.Drawing.Size(800, 28)
+        Me.MenuStrip.TabIndex = 4
+        Me.MenuStrip.Text = "TopMenuStrip"
         '
         'FileToolStripMenuItem
         '
@@ -147,13 +157,13 @@ Partial Class DataLoggerForm
         'DisplayRecentToolStripMenuItem
         '
         Me.DisplayRecentToolStripMenuItem.Name = "DisplayRecentToolStripMenuItem"
-        Me.DisplayRecentToolStripMenuItem.Size = New System.Drawing.Size(190, 26)
+        Me.DisplayRecentToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
         Me.DisplayRecentToolStripMenuItem.Text = "Display &Recent"
         '
         'DisplayAllToolStripMenuItem
         '
         Me.DisplayAllToolStripMenuItem.Name = "DisplayAllToolStripMenuItem"
-        Me.DisplayAllToolStripMenuItem.Size = New System.Drawing.Size(190, 26)
+        Me.DisplayAllToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
         Me.DisplayAllToolStripMenuItem.Text = "Display &All"
         '
         'AboutToolStripMenuItem
@@ -229,6 +239,64 @@ Partial Class DataLoggerForm
         Me.RangeLabel.TabIndex = 10
         Me.RangeLabel.Text = "1-1000"
         '
+        'MainContextMenuStrip
+        '
+        Me.MainContextMenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.MainContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem1, Me.ViewToolStripMenuItem1, Me.AboutToolStripMenuItem1})
+        Me.MainContextMenuStrip.Name = "MainContextMenuStrip"
+        Me.MainContextMenuStrip.Size = New System.Drawing.Size(211, 104)
+        '
+        'FileToolStripMenuItem1
+        '
+        Me.FileToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectCOMPortToolStripMenuItem, Me.ExitToolStripMenuItem1})
+        Me.FileToolStripMenuItem1.Name = "FileToolStripMenuItem1"
+        Me.FileToolStripMenuItem1.Size = New System.Drawing.Size(210, 24)
+        Me.FileToolStripMenuItem1.Text = "&File"
+        '
+        'SelectCOMPortToolStripMenuItem
+        '
+        Me.SelectCOMPortToolStripMenuItem.Name = "SelectCOMPortToolStripMenuItem"
+        Me.SelectCOMPortToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.SelectCOMPortToolStripMenuItem.Text = "&Select COM Port"
+        '
+        'ViewToolStripMenuItem1
+        '
+        Me.ViewToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DisplayRecentToolStripMenuItem1, Me.DisplayToolStripMenuItem})
+        Me.ViewToolStripMenuItem1.Name = "ViewToolStripMenuItem1"
+        Me.ViewToolStripMenuItem1.Size = New System.Drawing.Size(210, 24)
+        Me.ViewToolStripMenuItem1.Text = "&View"
+        '
+        'AboutToolStripMenuItem1
+        '
+        Me.AboutToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoToolStripMenuItem1})
+        Me.AboutToolStripMenuItem1.Name = "AboutToolStripMenuItem1"
+        Me.AboutToolStripMenuItem1.Size = New System.Drawing.Size(210, 24)
+        Me.AboutToolStripMenuItem1.Text = "&About"
+        '
+        'ExitToolStripMenuItem1
+        '
+        Me.ExitToolStripMenuItem1.Name = "ExitToolStripMenuItem1"
+        Me.ExitToolStripMenuItem1.Size = New System.Drawing.Size(224, 26)
+        Me.ExitToolStripMenuItem1.Text = "E&xit"
+        '
+        'DisplayRecentToolStripMenuItem1
+        '
+        Me.DisplayRecentToolStripMenuItem1.Name = "DisplayRecentToolStripMenuItem1"
+        Me.DisplayRecentToolStripMenuItem1.Size = New System.Drawing.Size(224, 26)
+        Me.DisplayRecentToolStripMenuItem1.Text = "Display &Recent"
+        '
+        'DisplayToolStripMenuItem
+        '
+        Me.DisplayToolStripMenuItem.Name = "DisplayToolStripMenuItem"
+        Me.DisplayToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.DisplayToolStripMenuItem.Text = "Display &All"
+        '
+        'InfoToolStripMenuItem1
+        '
+        Me.InfoToolStripMenuItem1.Name = "InfoToolStripMenuItem1"
+        Me.InfoToolStripMenuItem1.Size = New System.Drawing.Size(224, 26)
+        Me.InfoToolStripMenuItem1.Text = "&Info"
+        '
         'DataLoggerForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -243,18 +311,19 @@ Partial Class DataLoggerForm
         Me.Controls.Add(Me.ExitButton)
         Me.Controls.Add(Me.DisplayOptionGroupBox)
         Me.Controls.Add(Me.PlotPictureBox)
-        Me.Controls.Add(Me.MenuStrip1)
-        Me.MainMenuStrip = Me.MenuStrip1
+        Me.Controls.Add(Me.MenuStrip)
+        Me.MainMenuStrip = Me.MenuStrip
         Me.Name = "DataLoggerForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Data Logger"
         CType(Me.PlotPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.DisplayOptionGroupBox.ResumeLayout(False)
         Me.DisplayOptionGroupBox.PerformLayout()
-        Me.MenuStrip1.ResumeLayout(False)
-        Me.MenuStrip1.PerformLayout()
+        Me.MenuStrip.ResumeLayout(False)
+        Me.MenuStrip.PerformLayout()
         Me.StatusStrip.ResumeLayout(False)
         Me.StatusStrip.PerformLayout()
+        Me.MainContextMenuStrip.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -265,7 +334,7 @@ Partial Class DataLoggerForm
     Friend WithEvents RecentRadioButton As RadioButton
     Friend WithEvents AllRadioButton As RadioButton
     Friend WithEvents ExitButton As Button
-    Friend WithEvents MenuStrip1 As MenuStrip
+    Friend WithEvents MenuStrip As MenuStrip
     Friend WithEvents FileToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SelectCOMToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ExitToolStripMenuItem As ToolStripMenuItem
@@ -282,4 +351,13 @@ Partial Class DataLoggerForm
     Friend WithEvents SampleRateTextBox As TextBox
     Friend WithEvents SampleRateLabel As Label
     Friend WithEvents RangeLabel As Label
+    Friend WithEvents MainContextMenuStrip As ContextMenuStrip
+    Friend WithEvents FileToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents SelectCOMPortToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ViewToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents AboutToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents ExitToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents DisplayRecentToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents DisplayToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents InfoToolStripMenuItem1 As ToolStripMenuItem
 End Class
